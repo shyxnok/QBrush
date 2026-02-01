@@ -71,7 +71,7 @@ struct ContentView: View {
                 QuickActionCard(
                     title: "题库管理", subtitle: "查看和管理题目", icon: "book",
                     color: .blue, destination: {
-                    QView() // 跳转目标页面
+                        QuestionManagementView() // 跳转目标页面
                    }
                 )
                 QuickActionCard(
