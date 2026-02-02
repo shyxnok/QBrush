@@ -77,7 +77,7 @@ struct ContentView: View {
                 QuickActionCard(
                     title: "导入题目", subtitle: "批量导入新题目", icon: "square.and.arrow.down.on.square",
                     color: .green, destination: {
-                        QView() // 跳转目标页面
+                        ImportQuestionView() // 跳转目标页面
                     }
                 )
                 QuickActionCard(

@@ -2,6 +2,8 @@ import SwiftUI
 import Combine
 
 /// 控制器层 (ViewModel) - 连接 UI 与 Service
+/// 负责管理 UI 状态和处理用户意图
+@MainActor
 class QuestionListViewModel: ObservableObject {
     @Published var questions: [Question] = []
     @Published var isLoading: Bool = false
@@ -27,47 +29,50 @@ class QuestionListViewModel: ObservableObject {
             .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
             .removeDuplicates()
             .sink { [weak self] _ in
-                self?.currentPage = 1
-                self?.loadQuestions()
+                guard let self = self else { return }
+                self.currentPage = 1
+                self.loadQuestions()
             }
             .store(in: &cancellables)
             
         $selectedType
             .sink { [weak self] _ in
-                self?.currentPage = 1
-                self?.loadQuestions()
+                guard let self = self else { return }
+                self.currentPage = 1
+                self.loadQuestions()
             }
             .store(in: &cancellables)
     }
     
     // MARK: - Intent (API Interface)
     
+    /// 加载题目列表
     func loadQuestions() {
         isLoading = true
         errorMessage = nil
         
-        let result = service.getQuestionList(page: currentPage, type: selectedType, keyword: searchText)
-        
-        DispatchQueue.main.async {
-            self.isLoading = false
-            switch result {
-            case .success(let data):
+        Task {
+            do {
+                let data = try await service.getQuestionList(page: currentPage, type: selectedType, keyword: searchText)
                 self.questions = data
-            case .failure(let error):
+            } catch {
                 self.errorMessage = error.localizedDescription
             }
+            self.isLoading = false
         }
     }
     
+    /// 删除题目
     func deleteQuestion(_ question: Question) {
-        let result = service.deleteQuestion(question)
-        switch result {
-        case .success:
-            if let index = questions.firstIndex(of: question) {
-                questions.remove(at: index)
+        Task {
+            do {
+                try await service.deleteQuestion(question)
+                if let index = self.questions.firstIndex(of: question) {
+                    self.questions.remove(at: index)
+                }
+            } catch {
+                self.errorMessage = error.localizedDescription
             }
-        case .failure(let error):
-            errorMessage = error.localizedDescription
         }
     }
     
@@ -78,9 +83,7 @@ class QuestionListViewModel: ObservableObject {
     
     func loadMore() {
         currentPage += 1
-        // 这里需要修改 Service 支持 append 模式，或者直接 fetch next page
-        // 简单起见，当前 Demo 假设 loadQuestions 会覆盖。
-        // 实际项目应 append 到 questions 数组
-        // self.loadQuestions() 
+        // 实际项目应 append 到 questions 数组，这里暂未实现分页追加逻辑
+        // loadQuestions()
     }
 }

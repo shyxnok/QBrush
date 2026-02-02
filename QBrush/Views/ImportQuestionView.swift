@@ -7,48 +7,7 @@
 
 import SwiftUI
 
-// 题目类型枚举
-enum QuestionType: String, CaseIterable, Identifiable {
-    case singleChoice = "选择题"
-    case fillBlank = "填空题"
-    case judgment = "判断题"
-    case answer = "解答题"
-    
-    var id: Self { self }
-}
 
-// 语言类型枚举
-enum QuestionLanguage: String, CaseIterable, Identifiable {
-    case chinese = "汉语"
-    case ancientChinese = "古文"
-    case english = "英语"
-    case korean = "韩语"
-    
-    var id: Self { self }
-}
-
-// 难度枚举（带星级展示）
-enum QuestionDifficulty: String, CaseIterable, Identifiable {
-    case easy = "简单"
-    case medium = "中等"
-    case hard = "困难"
-    
-    var id: Self { self }
-    var starIcon: String {
-        switch self {
-        case .easy: return "star"
-        case .medium: return "star.fill"
-        case .hard: return "star.fill.star.fill"
-        }
-    }
-    var starCount: Int {
-        switch self {
-        case .easy: return 1
-        case .medium: return 2
-        case .hard: return 3
-        }
-    }
-}
 
 // 导入题目主界面
 struct ImportQuestionView: View {
@@ -59,7 +18,6 @@ struct ImportQuestionView: View {
     @State private var title: String = ""
     @State private var content: String = ""
     @State private var questionType: QuestionType = .singleChoice
-    @State private var language: QuestionLanguage = .chinese
     @State private var difficulty: QuestionDifficulty = .medium
     @State private var optionA: String = ""
     @State private var optionB: String = ""
@@ -181,13 +139,6 @@ struct ImportQuestionView: View {
                     width: .infinity
                 )
                 
-                // 语言
-                DropdownField(
-                    title: "语言",
-                    selectedValue: $language,
-                    options: QuestionLanguage.allCases,
-                    width: .infinity
-                )
                 
                 // 难度
                 DropdownField(

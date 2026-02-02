@@ -139,25 +139,3 @@ struct SectionCard<Content: View>: View {
 //    StatsCard(title: "题库总量", valueText: "\(33)", footnote: "道题目", icon: "books.vertical")
 }
 
-struct QView: View {
-    var body: some View {
-        if #available(iOS 16.0, macOS 13.0, *) {
-            NavigationStack {
-                VStack {
-                    Text("这是题库管理页面")
-                    // 你的其他内容
-                }
-                .navigationTitle("题库管理")  // 设置标题
-            }
-        } else {
-            NavigationView {
-                VStack {
-                    Text("这是题库管理页面")
-                    // 你的其他内容
-                }
-                .navigationTitle("题库管理")  // 设置标题
-            }
-        }
-      
-    }
-}
