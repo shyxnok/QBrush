@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct QuestionRowView: View {
     let question: Question
@@ -24,19 +25,10 @@ struct QuestionRowView: View {
             }
             
             VStack(alignment: .leading, spacing: 8) {
-                // Content with Highlight
-                if #available(iOS 15.0, *) {
-                    Text(attributedString(for: question.content ?? "", highlight: searchText))
-                        .font(.body)
-                        .lineLimit(2)
-                        .foregroundColor(.primary)
-                        .dynamicTypeSize(...DynamicTypeSize.accessibility3) // Limit dynamic type scaling
-                } else {
-                    Text(question.content ?? "")
-                        .font(.body)
-                        .lineLimit(2)
-                        .foregroundColor(.primary)
-                }
+                highlightedText(question.content ?? "", highlights: searchTerms)
+                    .font(.body)
+                    .lineLimit(2)
+                    .foregroundColor(.primary)
                 
                 HStack {
                     // Type Badge
@@ -97,18 +89,43 @@ struct QuestionRowView: View {
         }
     }
     
-    @available(iOS 15, *)
-    private func attributedString(for text: String, highlight: String) -> AttributedString {
-        var attributed = AttributedString(text)
-        
-        guard !highlight.isEmpty else { return attributed }
-        
-        if let range = attributed.range(of: highlight, options: .caseInsensitive) {
-            attributed[range].foregroundColor = .orange
-            attributed[range].font = .body.bold()
+    private var searchTerms: [String] {
+        let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmed.isEmpty { return [] }
+        return trimmed
+            .components(separatedBy: CharacterSet.whitespacesAndNewlines.union(.punctuationCharacters))
+            .filter { !$0.isEmpty }
+    }
+    
+    private func highlightedText(_ text: String, highlights: [String]) -> Text {
+        guard !highlights.isEmpty else { return Text(text) }
+        let escaped = highlights.map { NSRegularExpression.escapedPattern(for: $0) }.joined(separator: "|")
+        let pattern = "(\(escaped))"
+        let options: NSRegularExpression.Options = [.caseInsensitive]
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: options) else {
+            return Text(text)
         }
+        let nsText = text as NSString
+        let matches = regex.matches(in: text, range: NSRange(location: 0, length: nsText.length))
         
-        return attributed
+        var result = Text("")
+        var lastLocation = 0
+        
+        for match in matches {
+            let range = match.range
+            if range.location > lastLocation {
+                let normal = nsText.substring(with: NSRange(location: lastLocation, length: range.location - lastLocation))
+                result = result + Text(normal)
+            }
+            let highlight = nsText.substring(with: range)
+            result = result + Text(highlight).foregroundColor(.orange).bold()
+            lastLocation = range.location + range.length
+        }
+        if lastLocation < nsText.length {
+            let tail = nsText.substring(with: NSRange(location: lastLocation, length: nsText.length - lastLocation))
+            result = result + Text(tail)
+        }
+        return result
     }
     
     private var accessibilityLabelString: String {

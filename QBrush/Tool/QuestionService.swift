@@ -13,11 +13,13 @@ class QuestionService {
     
     /// 添加新题目
     func addQuestion(content: String, 
-                     type: String,
-                     difficulty: String = "中等", 
+                     qtype: String,
+                     difficulty: String = "中等",
                      options: String? = nil, 
                      correctAnswer: String? = nil, 
-                     analysis: String? = nil, 
+                     analysis: String? = nil,
+                     type: String? = nil,
+                     createdBy: String? = nil,
                      tags: String? = nil) async throws -> Question {
         
         // 1. 数据验证
@@ -25,14 +27,24 @@ class QuestionService {
             throw QuestionError.emptyContent
         }
         
-        // 2. 调用 DAO
+        // 2. 调用 DAOcontent: String,
+//        qtype: String,
+//        difficulty: String,
+//        options: String? = nil,
+//        correctAnswer: String? = nil,
+//        analysis: String? = nil,
+//        type: String? = nil,
+//        createdBy: String? = nil,
+//        tags: String? = nil
         do {
-            return try await repository.create(content: content, 
-                                             type: type,
+            return try await repository.create(content: content, qtype: qtype,
+                                             
                                              difficulty: difficulty,
                                              options: options, 
                                              correctAnswer: correctAnswer, 
-                                             analysis: analysis, 
+                                             analysis: analysis,
+                                               type: type,
+                                               createdBy:createdBy,
                                              tags: tags)
         } catch {
             throw QuestionError.databaseError(error.localizedDescription)

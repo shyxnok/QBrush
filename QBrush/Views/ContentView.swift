@@ -74,17 +74,17 @@ struct ContentView: View {
                         QuestionManagementView() // 跳转目标页面
                    }
                 )
-                QuickActionCard(
-                    title: "导入题目", subtitle: "批量导入新题目", icon: "square.and.arrow.down.on.square",
-                    color: .green, destination: {
-                        ImportQuestionView() // 跳转目标页面
-                    }
-                )
-                QuickActionCard(
-                    title: "记忆力测试", subtitle: "评估记忆力水平", icon: "brain.head.profile", color: .teal, destination: {
-                        QView() // 跳转目标页面
-                    }
-                )
+//                QuickActionCard(
+//                    title: "导入题目", subtitle: "批量导入新题目", icon: "square.and.arrow.down.on.square",
+//                    color: .green, destination: {
+//                        ImportQuestionView() // 跳转目标页面
+//                    }
+//                )
+//                QuickActionCard(
+//                    title: "记忆力测试", subtitle: "评估记忆力水平", icon: "brain.head.profile", color: .teal, destination: {
+//                        QView() // 跳转目标页面
+//                    }
+//                )
                 QuickActionCard(
                     title: "智能刷题", subtitle: "开始个性化练习", icon: "bolt.fill", color: .yellow, destination: {
                         QView() // 跳转目标页面
@@ -136,37 +136,6 @@ struct ContentView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
-}
-
-extension Color {
-    /// 跨平台分组背景色（iOS: systemGroupedBackground，macOS: controlBackgroundColor）
-    static var groupedBackground: Color {
-        #if os(iOS) || os(tvOS) || os(watchOS)
-            return Color(UIColor.systemGroupedBackground)
-        #elseif os(macOS)
-            return Color(NSColor.controlBackgroundColor)
-        #else
-            return Color.gray.opacity(0.1)
-        #endif
-    }
-
-    /// 跨平台等效于iOS systemGray5的灰度颜色（适配iOS/macOS）
-    static var systemGray5: Color {
-        #if os(iOS) || os(tvOS) || os(watchOS)
-            // iOS直接使用systemGray5
-            if #available(iOS 13.0, *) {
-                return Color(UIColor.systemGray5)
-            } else {
-                return Color.gray.opacity(0.1)
-            }
-        #elseif os(macOS)
-            // macOS无systemGray5，用自定义灰度替代（视觉最接近iOS的systemGray5）
-            return Color(NSColor.gray.withAlphaComponent(0.1))
-        #else
-            // 其他平台降级
-            return Color.gray.opacity(0.1)
-        #endif
-    }
 }
 
 #Preview {

@@ -16,11 +16,13 @@ class QuestionRepository {
     
     /// 创建新题目
     func create(content: String, 
-                type: String, 
+                qtype: String, 
                 difficulty: String, 
                 options: String? = nil, 
                 correctAnswer: String? = nil, 
                 analysis: String? = nil, 
+                type: String? = nil,
+                createdBy: String? = nil,
                 tags: String? = nil) async throws -> Question {
         
         try await context.perform {
@@ -35,7 +37,8 @@ class QuestionRepository {
             question.tags = tags
             question.createdAt = Date()
             question.updatedAt = Date()
-            
+            question.createdBy = createdBy ?? "admin"
+            question.qtype = qtype
             try self.save()
             return question
         }

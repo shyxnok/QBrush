@@ -1,0 +1,40 @@
+/* 
+  Localizable.strings
+  QBrush
+
+  Created by bgcode on 2026/2/1.
+*/
+
+"question_management_title" = "题库管理";
+"search_placeholder" = "搜索题目...";
+"filter_all" = "全部";
+"filter_choice" = "选择题";
+"filter_fill" = "填空题";
+"filter_judgment" = "判断题";
+"filter_answer" = "解答题";
+"empty_list_title" = "暂无题目";
+"empty_list_message" = "尝试添加新题目或更改筛选条件";
+"delete_action" = "删除";
+"edit_action" = "编辑";
+"copy_action" = "复制";
+"move_action" = "移动分组";
+"mark_action" = "标记重点";
+"cancel_action" = "取消";
+"select_action" = "选择";
+"done_action" = "完成";
+"batch_delete" = "批量删除";
+"batch_export" = "导出";
+"batch_print" = "打印";
+"loading_text" = "加载中...";
+"delete_success_message" = "题目已删除";
+"error_title" = "错误";
+"ok_button" = "确定";
+"retry_button" = "重试";
+"add_question" = "添加题目";
+"difficulty_easy" = "简单";
+"difficulty_medium" = "中等";
+"difficulty_hard" = "困难";
+"sort_updated_desc" = "按更新时间";
+"sort_created_desc" = "按创建时间";
+"sort_type_asc" = "按题型";
+"sort_difficulty_asc" = "按难度";

@@ -1,0 +1,40 @@
+/* 
+  Localizable.strings
+  QBrush
+
+  Created by bgcode on 2026/2/1.
+*/
+
+"question_management_title" = "Question Bank";
+"search_placeholder" = "Search questions...";
+"filter_all" = "All";
+"filter_choice" = "Choice";
+"filter_fill" = "Fill";
+"filter_judgment" = "Judgment";
+"filter_answer" = "Essay";
+"empty_list_title" = "No Questions";
+"empty_list_message" = "Try adding a new question or changing filters";
+"delete_action" = "Delete";
+"edit_action" = "Edit";
+"copy_action" = "Copy";
+"move_action" = "Move to Group";
+"mark_action" = "Mark as Important";
+"cancel_action" = "Cancel";
+"select_action" = "Select";
+"done_action" = "Done";
+"batch_delete" = "Delete Selected";
+"batch_export" = "Export";
+"batch_print" = "Print";
+"loading_text" = "Loading...";
+"delete_success_message" = "Question deleted";
+"error_title" = "Error";
+"ok_button" = "OK";
+"retry_button" = "Retry";
+"add_question" = "Add Question";
+"difficulty_easy" = "Easy";
+"difficulty_medium" = "Medium";
+"difficulty_hard" = "Hard";
+"sort_updated_desc" = "Recently Updated";
+"sort_created_desc" = "Recently Created";
+"sort_type_asc" = "By Type";
+"sort_difficulty_asc" = "By Difficulty";
